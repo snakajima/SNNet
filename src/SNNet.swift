@@ -8,6 +8,13 @@
 
 import UIKit
 
+private func MyLog(text:String, level:Int = 1) {
+    let s_verbosLevel = 0
+    if level <= s_verbosLevel {
+        print(text)
+    }
+}
+
 class SNNetError: NSObject, ErrorType {
     let res:NSHTTPURLResponse
     init(res:NSHTTPURLResponse) {
@@ -73,7 +80,7 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
         let config = NSURLSessionConfiguration.defaultSessionConfiguration()
         return NSURLSession(configuration: config, delegate: SNNet.sharedInstance, delegateQueue: NSOperationQueue.mainQueue())
     }()
-    static var apiRoot = NSURL(string: "https://www.google.com")!
+    static var apiRoot = NSURL(string: "http://localhost")!
     
     static func deleteAllCookiesForURL(url:NSURL) {
         let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
@@ -120,7 +127,7 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
 
     static func post(path:String, fileData:NSData, params:[String:String], callback:snnet_callback) -> NSURLSessionDownloadTask? {
         guard let url = urlFromPath(path) else {
-            print("SNNet Invalid URL:\(path)")
+            MyLog("SNNet Invalid URL:\(path)")
             // BUGBUG: callback with an error
             return nil
         }
@@ -136,7 +143,7 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
         body += "\r\n--\(boundary)\r\n"
         body += "Content-Disposition: form-data; name=\"file\"\r\n\r\n"
         
-        //print("SNNet FILE body:\(body)")
+        //MyLog("SNNet FILE body:\(body)")
 
         let data = NSMutableData(data: body.dataUsingEncoding(NSUTF8StringEncoding)!)
 
@@ -161,7 +168,7 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
     
     private static func request(method:String, path:String, params:[String:String]? = nil, callback:snnet_callback) -> NSURLSessionDownloadTask? {
         guard let url = urlFromPath(path) else {
-            print("SNNet Invalid URL:\(path)")
+            MyLog("SNNet Invalid URL:\(path)")
             return nil
         }
         var query:String?
@@ -179,10 +186,10 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
         if let q = query where method == "GET" {
             let urlGet = NSURL(string: url.absoluteString + "?\(q)")!
             request = NSMutableURLRequest(URL: urlGet)
-            print("SNNet \(method) url=\(urlGet.absoluteString)")
+            MyLog("SNNet \(method) url=\(urlGet.absoluteString)")
         } else {
             request = NSMutableURLRequest(URL: url)
-            print("SNNet \(method) url=\(url.absoluteString) +\(query)")
+            MyLog("SNNet \(method) url=\(url.absoluteString) +\(query)")
         }
 
         request.HTTPMethod = method
@@ -197,11 +204,11 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
     private static func sendRequest(request:NSURLRequest, callback:snnet_callback) -> NSURLSessionDownloadTask {
         let task = session.downloadTaskWithRequest(request) { (url:NSURL?, res:NSURLResponse?, err:NSError?) -> Void in
             if let error = err {
-                print("SNNet ### error=\(error)")
+                MyLog("SNNet ### error=\(error)")
                 callback(url: url, err: err)
             } else {
                 guard let hres = res as? NSHTTPURLResponse else {
-                    print("SNNet ### not HTTP Response=\(res)")
+                    MyLog("SNNet ### not HTTP Response=\(res)")
                     // NOTE: Probably never happens
                     return
                 }
