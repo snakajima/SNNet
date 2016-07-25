@@ -28,3 +28,9 @@ SNNet.get("/webhp", params: [ "q":"Hello World" ]) { (url, err) -> (Void) in
 ```
 
 It also supports HTTP POST, PUT and DELETE. Use *post*, *put*, and *delete* functions respectedly. 
+
+## Test
+
+1. Run the test serer. "node test/SNNet/server/index.js"
+2. Open the project test/SNNet/SNNet.xcodeproj with xCode
+3. Build & run it under one of iOS emulator

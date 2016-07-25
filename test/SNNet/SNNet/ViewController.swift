@@ -34,27 +34,13 @@ class ViewController: UIViewController {
         
         dispatch_group_enter(serviceGroup)
         SNNet.apiRoot = NSURL(string:"http://localhost:3000")!
-        SNNet.get("/webhp", params: [ "q":"hello world" ]) { (url, err) -> (Void) in
+        SNNet.get("/test1") { (url, err) -> (Void) in
             dispatch_group_leave(serviceGroup)
             if let _ = err {
-                MyLog("Local Search Faied", level: 0)
+                MyLog("Local test1 Faied", level: 0)
                 errorCount += 1
             } else {
-                MyLog("Local Search Succeeded", level: 1)
-            }
-        }
-        dispatch_group_enter(serviceGroup)
-        SNNet.get("/tobefailed") { (url, err) -> (Void) in
-            dispatch_group_leave(serviceGroup)
-            if let error = err {
-                if let netError = err as? SNNetError where netError.res.statusCode == 404 {
-                    MyLog("Local Invalid Search Failed as Expected", level: 1)
-                } else {
-                    MyLog("Local Invalid Search Failed With an Unexpected error: \(error)", level: 0)
-                }
-            } else {
-                MyLog("Local Invalid Search Succeeded Unexpectedly", level: 0)
-                errorCount += 1
+                MyLog("Local test1 Succeeded", level: 1)
             }
         }
         
