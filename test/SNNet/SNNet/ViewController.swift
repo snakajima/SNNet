@@ -59,6 +59,33 @@ class ViewController: UIViewController {
         let serviceGroup = dispatch_group_create()
         
         dispatch_group_enter(serviceGroup)
+        SNNet.get("http://httpbin.org/get", params: [ "message":"Hello World" ]) { (url, err) -> (Void) in
+            dispatch_group_leave(serviceGroup)
+            if let _ = err {
+                MyLog("httpbin get test Faied", level: 0)
+                errorCount += 1
+            } else {
+                if let urlLocal = url,
+                   let data = NSData(contentsOfURL:urlLocal) {
+                    do {
+                        let json = try NSJSONSerialization.JSONObjectWithData(data, options: [])
+                        //print("json", json)
+                        if let args = json["args"] as? [String:AnyObject],
+                           let message = args["message"] as? String where message == "Hello World" {
+                                MyLog("httpbin get test Succeeded", level: 1)
+                           } else {
+                                MyLog("httpbin get test failed, no message", level: 0)
+                                errorCount += 1
+                           }
+                    } catch let error as NSError {
+                        MyLog("httpbin get test failed, json error, \(error)", level: 0)
+                        errorCount += 1
+                    }
+                }
+            }
+        }
+
+        dispatch_group_enter(serviceGroup)
         SNNet.get("http://httpbin.org/status/418") { (url, err) -> (Void) in
             dispatch_group_leave(serviceGroup)
             if let error = err {
