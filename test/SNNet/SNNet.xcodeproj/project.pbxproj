@@ -13,7 +13,6 @@
 		7418303F1D46A9850027D78E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7418303E1D46A9850027D78E /* Assets.xcassets */; };
 		741830421D46A9850027D78E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 741830401D46A9850027D78E /* LaunchScreen.storyboard */; };
 		7418304B1D46A9AC0027D78E /* SNNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7418304A1D46A9AC0027D78E /* SNNet.swift */; };
-		7418304D1D46AB230027D78E /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 7418304C1D46AB230027D78E /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -152,7 +151,6 @@
 			files = (
 				7418303A1D46A9850027D78E /* ViewController.swift in Sources */,
 				741830381D46A9850027D78E /* AppDelegate.swift in Sources */,
-				7418304D1D46AB230027D78E /* README.md in Sources */,
 				7418304B1D46A9AC0027D78E /* SNNet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

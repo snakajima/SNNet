@@ -63,6 +63,8 @@ class SNNetError: NSObject, ErrorType {
     }
 }
 
+public typealias snnet_callback = (url:NSURL?, err:ErrorType?)->(Void)
+
 class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
     static let boundary = "0xKhTmLbOuNdArY---This_Is_ThE_BoUnDaRyy---pqo"
 
@@ -82,23 +84,23 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
         }
     }
 
-    static func get(path:String, params:[String:String]? = nil, callback:(url:NSURL?, err:ErrorType?)->(Void)) -> NSURLSessionDownloadTask? {
+    static func get(path:String, params:[String:String]? = nil, callback:snnet_callback) -> NSURLSessionDownloadTask? {
         return SNNet.request("GET", path: path, params:params, callback:callback)
     }
 
-    static func post(path:String, params:[String:String]? = nil, callback:(url:NSURL?, err:ErrorType?)->(Void)) -> NSURLSessionDownloadTask? {
+    static func post(path:String, params:[String:String]? = nil, callback:snnet_callback) -> NSURLSessionDownloadTask? {
         return SNNet.request("POST", path: path, params:params, callback:callback)
     }
 
-    static func put(path:String, params:[String:String]? = nil, callback:(url:NSURL?, err:ErrorType?)->(Void)) -> NSURLSessionDownloadTask? {
+    static func put(path:String, params:[String:String]? = nil, callback:snnet_callback) -> NSURLSessionDownloadTask? {
         return SNNet.request("PUT", path: path, params:params, callback:callback)
     }
 
-    static func delete(path:String, params:[String:String]? = nil, callback:(url:NSURL?, err:ErrorType?)->(Void)) -> NSURLSessionDownloadTask? {
+    static func delete(path:String, params:[String:String]? = nil, callback:snnet_callback) -> NSURLSessionDownloadTask? {
         return SNNet.request("DELETE", path: path, params:params, callback:callback)
     }
 
-    static func post(path:String, json:[String:AnyObject], params:[String:String], callback:(url:NSURL?, err:ErrorType?)->(Void)) -> NSURLSessionDownloadTask? {
+    static func post(path:String, json:[String:AnyObject], params:[String:String], callback:snnet_callback) -> NSURLSessionDownloadTask? {
         do {
             let data = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
             return post(path, fileData: data, params: params, callback: callback)
@@ -108,7 +110,7 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
         }
     }
 
-    static func post(path:String, file:NSURL, params:[String:String], callback:(url:NSURL?, err:ErrorType?)->(Void)) -> NSURLSessionDownloadTask? {
+    static func post(path:String, file:NSURL, params:[String:String], callback:snnet_callback) -> NSURLSessionDownloadTask? {
         guard let data = NSData(contentsOfURL: file) else {
             // BUGBUG: callback with an error
             return nil
@@ -116,7 +118,7 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
         return post(path, fileData: data, params: params, callback: callback)
     }
 
-    static func post(path:String, fileData:NSData, params:[String:String], callback:(url:NSURL?, err:ErrorType?)->(Void)) -> NSURLSessionDownloadTask? {
+    static func post(path:String, fileData:NSData, params:[String:String], callback:snnet_callback) -> NSURLSessionDownloadTask? {
         guard let url = urlFromPath(path) else {
             print("SNNet Invalid URL:\(path)")
             // BUGBUG: callback with an error
@@ -157,7 +159,7 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
         return apiRoot.URLByAppendingPathComponent(path)
     }
     
-    private static func request(method:String, path:String, params:[String:String]? = nil, callback:(url:NSURL?, err:ErrorType?)->(Void)) -> NSURLSessionDownloadTask? {
+    private static func request(method:String, path:String, params:[String:String]? = nil, callback:snnet_callback) -> NSURLSessionDownloadTask? {
         guard let url = urlFromPath(path) else {
             print("SNNet Invalid URL:\(path)")
             return nil
@@ -192,7 +194,7 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
         return sendRequest(request, callback: callback)
     }
 
-    private static func sendRequest(request:NSURLRequest, callback:(url:NSURL?, err:ErrorType?)->(Void)) -> NSURLSessionDownloadTask {
+    private static func sendRequest(request:NSURLRequest, callback:snnet_callback) -> NSURLSessionDownloadTask {
         let task = session.downloadTaskWithRequest(request) { (url:NSURL?, res:NSURLResponse?, err:NSError?) -> Void in
             if let error = err {
                 print("SNNet ### error=\(error)")

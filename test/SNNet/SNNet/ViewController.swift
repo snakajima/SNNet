@@ -12,14 +12,14 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        test()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func test() {
+        SNNet.get("/webhp", params: [ "q":"hello world" ]) { (url, err) -> (Void) in
+            print(url, err)
+        }
     }
-
-
 }
 
