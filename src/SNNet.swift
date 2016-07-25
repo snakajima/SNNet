@@ -125,7 +125,21 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
         return post(path, fileData: data, params: params, callback: callback)
     }
 
-    static func post(path:String, fileData:NSData, params:[String:String], callback:snnet_callback) -> NSURLSessionDownloadTask? {
+    static func post(path:String, rawData:NSData, callback:snnet_callback) -> NSURLSessionDownloadTask? {
+        guard let url = urlFromPath(path) else {
+            MyLog("SNNet Invalid URL:\(path)")
+            // BUGBUG: callback with an error
+            return nil
+        }
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.HTTPBody = rawData
+        request.setValue("\(rawData.length)", forHTTPHeaderField: "Content-Length")
+
+        return sendRequest(request, callback: callback)
+    }
+    
+    static func post(path:String, fileData _fileData:NSData?, params:[String:String], callback:snnet_callback) -> NSURLSessionDownloadTask? {
         guard let url = urlFromPath(path) else {
             MyLog("SNNet Invalid URL:\(path)")
             // BUGBUG: callback with an error
@@ -140,14 +154,16 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
             body += "Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n"
             body += value
         }
-        body += "\r\n--\(boundary)\r\n"
-        body += "Content-Disposition: form-data; name=\"file\"\r\n\r\n"
-        
-        //MyLog("SNNet FILE body:\(body)")
-
         let data = NSMutableData(data: body.dataUsingEncoding(NSUTF8StringEncoding)!)
+        
+        if let fileData = _fileData {
+            var extraBody = "\r\n--\(boundary)\r\n"
+            extraBody += "Content-Disposition: form-data; name=\"file\"\r\n\r\n"
+            
+            data.appendData(extraBody.dataUsingEncoding(NSUTF8StringEncoding)!)
+            data.appendData(fileData)
+        }
 
-        data.appendData(fileData)
         data.appendData("\r\n--\(boundary)--\r\n".dataUsingEncoding(NSUTF8StringEncoding)!)
         
         request.HTTPBody = data

@@ -13,6 +13,7 @@
 		7418303F1D46A9850027D78E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7418303E1D46A9850027D78E /* Assets.xcassets */; };
 		741830421D46A9850027D78E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 741830401D46A9850027D78E /* LaunchScreen.storyboard */; };
 		7418304B1D46A9AC0027D78E /* SNNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7418304A1D46A9AC0027D78E /* SNNet.swift */; };
+		741830511D46D62C0027D78E /* swipe.png in Resources */ = {isa = PBXBuildFile; fileRef = 741830501D46D62C0027D78E /* swipe.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		7418304A1D46A9AC0027D78E /* SNNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SNNet.swift; sourceTree = "<group>"; };
 		7418304C1D46AB230027D78E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../../README.md; sourceTree = "<group>"; };
 		7418304F1D46C5E30027D78E /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
+		741830501D46D62C0027D78E /* swipe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = swipe.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				741830491D46A9AC0027D78E /* src */,
 				741830371D46A9850027D78E /* AppDelegate.swift */,
 				741830391D46A9850027D78E /* ViewController.swift */,
+				741830501D46D62C0027D78E /* swipe.png */,
 				7418303B1D46A9850027D78E /* Main.storyboard */,
 				7418303E1D46A9850027D78E /* Assets.xcassets */,
 				741830401D46A9850027D78E /* LaunchScreen.storyboard */,
@@ -148,6 +151,7 @@
 			files = (
 				741830421D46A9850027D78E /* LaunchScreen.storyboard in Resources */,
 				7418303F1D46A9850027D78E /* Assets.xcassets in Resources */,
+				741830511D46D62C0027D78E /* swipe.png in Resources */,
 				7418303D1D46A9850027D78E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

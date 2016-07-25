@@ -101,6 +101,33 @@ class ViewController: UIViewController {
             }
         }
         
+        dispatch_group_enter(serviceGroup)
+        SNNet.post("http://httpbin.org/post", fileData: nil, params:["message":"Hello World"]) { (url, err) -> (Void) in
+            dispatch_group_leave(serviceGroup)
+            if let _ = err {
+                MyLog("httpbin post test Faied", level: 0)
+                errorCount += 1
+            } else {
+                if let urlLocal = url,
+                   let data = NSData(contentsOfURL:urlLocal) {
+                    do {
+                        let json = try NSJSONSerialization.JSONObjectWithData(data, options: [])
+                        //print("json", json)
+                        if let form = json["form"] as? [String:AnyObject],
+                           let message = form["message"] as? String where message == "Hello World" {
+                                MyLog("httpbin post test Succeeded", level: 1)
+                           } else {
+                                MyLog("httpbin post test failed, no message", level: 0)
+                                errorCount += 1
+                           }
+                    } catch let error as NSError {
+                        MyLog("httpbin post test failed, json error, \(error)", level: 0)
+                        errorCount += 1
+                    }
+                }
+            }
+        }
+        
         dispatch_group_notify(serviceGroup, dispatch_get_main_queue()) {
             if errorCount > 0 {
                 print("httpbin: Complete with error count = ", errorCount)
