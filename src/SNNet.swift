@@ -63,34 +63,6 @@ class SNNetError: NSObject, ErrorType {
     }
 }
 
-extension UIViewController {
-    func showErrorMessage(title:String, message:String, error:ErrorType?, retry:((Void)->(Void))? = nil, ok:((Void)->(Void))? = nil) {
-        let extra:String
-        if let snerr = error as? SNNetError {
-            extra = "\n\(snerr)"
-        } else if let err = error as? NSError {
-            extra = "\n\(err.localizedDescription)"
-        } else {
-            extra = ""
-        }
-
-        let alert = UIAlertController(title: title, message: message + extra, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel)  { (_:UIAlertAction) -> Void in
-                if let callback = ok {
-                    callback()
-                }
-            }
-        )
-        if let callback = retry {
-            let action = UIAlertAction(title: "Retry".localized, style: .Default) { (_:UIAlertAction) -> Void in
-                callback()
-            }
-            alert.addAction(action)
-        }
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-}
-
 class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
     static let boundary = "0xKhTmLbOuNdArY---This_Is_ThE_BoUnDaRyy---pqo"
 
