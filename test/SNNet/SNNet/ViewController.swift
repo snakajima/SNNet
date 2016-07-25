@@ -26,6 +26,7 @@ class ViewController: UIViewController {
     @IBAction func runTest() {
         testGoogle()
         testLocal()
+        testHTTPBIN()
     }
     
     func testLocal() {
@@ -53,6 +54,35 @@ class ViewController: UIViewController {
         }
     }
 
+    func testHTTPBIN() {
+        var errorCount = 0
+        let serviceGroup = dispatch_group_create()
+        
+        dispatch_group_enter(serviceGroup)
+        SNNet.get("http://httpbin.org/status/418") { (url, err) -> (Void) in
+            dispatch_group_leave(serviceGroup)
+            if let error = err {
+                if let netError = err as? SNNetError where netError.res.statusCode == 418 {
+                    MyLog("httpbin status code test succeeded", level: 1)
+                } else {
+                    MyLog("httpbin status code test Faied \(error)", level: 0)
+                    errorCount += 1
+                }
+            } else {
+                MyLog("httpbin status code test succeeded unexpectedly", level: 0)
+                errorCount += 1
+            }
+        }
+        
+        dispatch_group_notify(serviceGroup, dispatch_get_main_queue()) {
+            if errorCount > 0 {
+                print("httpbin: Complete with error count = ", errorCount)
+            } else {
+                print("httpbin: Complete")
+            }
+        }
+    }
+
     func testGoogle() {
         var errorCount = 0
         let serviceGroup = dispatch_group_create()
@@ -75,6 +105,7 @@ class ViewController: UIViewController {
                     MyLog("Google Invalid Search Failed as Expected", level: 1)
                 } else {
                     MyLog("Google Invalid Search Failed With an Unexpected error: \(error)", level: 0)
+                    errorCount += 1
                 }
             } else {
                 MyLog("Google Invalid Search Succeeded Unexpectedly", level: 0)
