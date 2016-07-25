@@ -19,8 +19,52 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        runTest()
+    }
+    
+    @IBAction func runTest() {
         testGoogle()
+        testLocal()
+    }
+    
+    func testLocal() {
+        var errorCount = 0
+        let serviceGroup = dispatch_group_create()
+        
+        dispatch_group_enter(serviceGroup)
+        SNNet.apiRoot = NSURL(string:"http://localhost:3000")!
+        SNNet.get("/webhp", params: [ "q":"hello world" ]) { (url, err) -> (Void) in
+            dispatch_group_leave(serviceGroup)
+            if let _ = err {
+                MyLog("Local Search Faied", level: 0)
+                errorCount += 1
+            } else {
+                MyLog("Local Search Succeeded", level: 1)
+            }
+        }
+        dispatch_group_enter(serviceGroup)
+        SNNet.get("/tobefailed") { (url, err) -> (Void) in
+            dispatch_group_leave(serviceGroup)
+            if let error = err {
+                if let netError = err as? SNNetError where netError.res.statusCode == 404 {
+                    MyLog("Local Invalid Search Failed as Expected", level: 1)
+                } else {
+                    MyLog("Local Invalid Search Failed With an Unexpected error: \(error)", level: 0)
+                }
+            } else {
+                MyLog("Local Invalid Search Succeeded Unexpectedly", level: 0)
+                errorCount += 1
+            }
+        }
+        
+        dispatch_group_notify(serviceGroup, dispatch_get_main_queue()) {
+            if errorCount > 0 {
+                print("Local: Complete with error count = ", errorCount)
+            } else {
+                print("Local: Complete")
+            }
+        }
     }
 
     func testGoogle() {

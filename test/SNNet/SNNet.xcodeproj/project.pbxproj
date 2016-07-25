@@ -25,6 +25,7 @@
 		741830431D46A9850027D78E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7418304A1D46A9AC0027D78E /* SNNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SNNet.swift; sourceTree = "<group>"; };
 		7418304C1D46AB230027D78E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../../README.md; sourceTree = "<group>"; };
+		7418304F1D46C5E30027D78E /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				7418304C1D46AB230027D78E /* README.md */,
+				7418304E1D46C5E30027D78E /* server */,
 				741830491D46A9AC0027D78E /* src */,
 				741830371D46A9850027D78E /* AppDelegate.swift */,
 				741830391D46A9850027D78E /* ViewController.swift */,
@@ -77,6 +79,14 @@
 			name = src;
 			path = ../../../src;
 			sourceTree = "<group>";
+		};
+		7418304E1D46C5E30027D78E /* server */ = {
+			isa = PBXGroup;
+			children = (
+				7418304F1D46C5E30027D78E /* index.js */,
+			);
+			path = server;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
