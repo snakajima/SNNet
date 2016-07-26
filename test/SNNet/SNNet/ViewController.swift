@@ -57,9 +57,10 @@ class ViewController: UIViewController {
             }
         }
         
-        let image = UIImage(named:"swipe.png")!
-        let data = UIImagePNGRepresentation(image)!
-        print("size=", data.length)
+        //let image = UIImage(named:"swipe.png")!
+        //let data = UIImagePNGRepresentation(image)!
+        let message = "Hello World. This is a message body."
+        let data = message.dataUsingEncoding(NSUTF8StringEncoding)!
 
         dispatch_group_enter(serviceGroup)
         SNNet.post("/post1", rawData: data) { (url, err) -> (Void) in
@@ -68,7 +69,19 @@ class ViewController: UIViewController {
                 MyLog("Local post1 Faied", level: 0)
                 errorCount += 1
             } else {
-                MyLog("Local post1 Succeeded", level: 1)
+                if let urlLocal = url {
+                    let messageReceived = try! NSString(contentsOfURL: urlLocal, encoding: NSUTF8StringEncoding)
+                    //print("message=", messageReceived)
+                    if message == messageReceived {
+                        MyLog("Local post1 Succeeded", level: 1)
+                    } else {
+                        MyLog("Local post1 Faied: wrong message", level: 0)
+                        errorCount += 1
+                    }
+                } else {
+                    MyLog("Local post1 Faied: no url", level: 0)
+                    errorCount += 1
+                }
             }
         }
         

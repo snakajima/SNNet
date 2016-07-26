@@ -7,9 +7,16 @@ const server = http.createServer((req, res) => {
       res.setHeader('Content-Type', 'text/plain');
       res.end('Hello World\n');
   } else if (req.url == '/post1' && req.method == 'POST') {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'text/plain');
-      res.end('Hello World\n');
+      var body = '';
+      req.on('data', function(data) {
+          body += data;
+      })
+      req.on('end', function() {
+          //console.log(`length=${ body.length }, ${body}`)
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'text/plain');
+          res.end(body);
+      })
   } else {
       res.statusCode = 404;
       res.setHeader('Content-Type', 'text/plain');
