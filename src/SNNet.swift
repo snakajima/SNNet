@@ -15,6 +15,10 @@ private func MyLog(text:String, level:Int = 1) {
     }
 }
 
+enum SNNetParamError: ErrorType {
+    case InvalidURL
+}
+
 class SNNetError: NSObject, ErrorType {
     let res:NSHTTPURLResponse
     init(res:NSHTTPURLResponse) {
@@ -119,7 +123,8 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
 
     static func post(path:String, file:NSURL, params:[String:String], callback:snnet_callback) -> NSURLSessionDownloadTask? {
         guard let data = NSData(contentsOfURL: file) else {
-            // BUGBUG: callback with an error
+            MyLog("SNNet Invalid URL:\(path)")
+            callback(url: nil, err: SNNetParamError.InvalidURL)
             return nil
         }
         return post(path, fileData: data, params: params, callback: callback)
@@ -128,7 +133,7 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
     static func post(path:String, rawData:NSData, callback:snnet_callback) -> NSURLSessionDownloadTask? {
         guard let url = urlFromPath(path) else {
             MyLog("SNNet Invalid URL:\(path)")
-            // BUGBUG: callback with an error
+            callback(url: nil, err: SNNetParamError.InvalidURL)
             return nil
         }
         let request = NSMutableURLRequest(URL: url)
@@ -142,7 +147,7 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
     static func post(path:String, fileData _fileData:NSData?, params:[String:String], callback:snnet_callback) -> NSURLSessionDownloadTask? {
         guard let url = urlFromPath(path) else {
             MyLog("SNNet Invalid URL:\(path)")
-            // BUGBUG: callback with an error
+            callback(url: nil, err: SNNetParamError.InvalidURL)
             return nil
         }
         let request = NSMutableURLRequest(URL: url)
@@ -185,6 +190,7 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
     private static func request(method:String, path:String, params:[String:String]? = nil, callback:snnet_callback) -> NSURLSessionDownloadTask? {
         guard let url = urlFromPath(path) else {
             MyLog("SNNet Invalid URL:\(path)")
+            callback(url: nil, err: SNNetParamError.InvalidURL)
             return nil
         }
         var query:String?
