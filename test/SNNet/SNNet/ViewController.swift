@@ -33,8 +33,9 @@ class ViewController: UIViewController {
         var errorCount = 0
         let serviceGroup = dispatch_group_create()
         
-        dispatch_group_enter(serviceGroup)
         SNNet.apiRoot = NSURL(string:"http://localhost:3000")!
+
+        dispatch_group_enter(serviceGroup)
         SNNet.get("/test1") { (url, err) -> (Void) in
             dispatch_group_leave(serviceGroup)
             if let _ = err {
@@ -42,6 +43,32 @@ class ViewController: UIViewController {
                 errorCount += 1
             } else {
                 MyLog("Local test1 Succeeded", level: 1)
+            }
+        }
+
+        dispatch_group_enter(serviceGroup)
+        SNNet.get("/test2") { (url, err) -> (Void) in
+            dispatch_group_leave(serviceGroup)
+            if let _ = err {
+                MyLog("Local test2 Failed as expected", level: 1)
+            } else {
+                MyLog("Local test2 Succeeded unexpectedly", level: 0)
+                errorCount += 1
+            }
+        }
+        
+        let image = UIImage(named:"swipe.png")!
+        let data = UIImagePNGRepresentation(image)!
+        print("size=", data.length)
+
+        dispatch_group_enter(serviceGroup)
+        SNNet.post("/post1", rawData: data) { (url, err) -> (Void) in
+            dispatch_group_leave(serviceGroup)
+            if let _ = err {
+                MyLog("Local post1 Faied", level: 0)
+                errorCount += 1
+            } else {
+                MyLog("Local post1 Succeeded", level: 1)
             }
         }
         
