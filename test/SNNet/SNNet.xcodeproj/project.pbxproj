@@ -38,6 +38,7 @@
 		7418305D1D47D6490027D78E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7418305F1D47D6490027D78E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		741830611D47D6490027D78E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7418309A1D48280D0027D78E /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE.txt; path = ../../../LICENSE.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +80,7 @@
 		741830361D46A9850027D78E /* SNNet */ = {
 			isa = PBXGroup;
 			children = (
+				7418309A1D48280D0027D78E /* LICENSE.txt */,
 				7418304C1D46AB230027D78E /* README.md */,
 				7418304E1D46C5E30027D78E /* server */,
 				741830491D46A9AC0027D78E /* src */,
