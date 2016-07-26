@@ -60,8 +60,8 @@ class ViewController: UIViewController {
 
             guard
                 let url = url,
-                data = try? Data(contentsOf: url),
-                text = String(data: data, encoding: String.Encoding.utf8)
+                let data = try? Data(contentsOf: url),
+                let text = String(data: data, encoding: String.Encoding.utf8)
             else {
                 callback(nil, Error.invalidData)
                 return
