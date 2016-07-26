@@ -14,6 +14,12 @@
 		741830421D46A9850027D78E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 741830401D46A9850027D78E /* LaunchScreen.storyboard */; };
 		7418304B1D46A9AC0027D78E /* SNNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7418304A1D46A9AC0027D78E /* SNNet.swift */; };
 		741830511D46D62C0027D78E /* swipe.png in Resources */ = {isa = PBXBuildFile; fileRef = 741830501D46D62C0027D78E /* swipe.png */; };
+		7418305E1D47D6490027D78E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7418305C1D47D6490027D78E /* Main.storyboard */; };
+		741830601D47D6490027D78E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7418305F1D47D6490027D78E /* Assets.xcassets */; };
+		741830651D47D6790027D78E /* SNNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7418304A1D46A9AC0027D78E /* SNNet.swift */; };
+		741830661D47D6790027D78E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741830371D46A9850027D78E /* AppDelegate.swift */; };
+		741830671D47D6790027D78E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741830391D46A9850027D78E /* ViewController.swift */; };
+		741830681D47D67E0027D78E /* swipe.png in Resources */ = {isa = PBXBuildFile; fileRef = 741830501D46D62C0027D78E /* swipe.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,10 +34,21 @@
 		7418304C1D46AB230027D78E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../../README.md; sourceTree = "<group>"; };
 		7418304F1D46C5E30027D78E /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		741830501D46D62C0027D78E /* swipe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = swipe.png; sourceTree = "<group>"; };
+		741830561D47D6490027D78E /* SNNetTV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SNNetTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7418305D1D47D6490027D78E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7418305F1D47D6490027D78E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		741830611D47D6490027D78E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		741830311D46A9850027D78E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		741830531D47D6490027D78E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -45,6 +62,7 @@
 			isa = PBXGroup;
 			children = (
 				741830361D46A9850027D78E /* SNNet */,
+				741830571D47D6490027D78E /* SNNetTV */,
 				741830351D46A9850027D78E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				741830341D46A9850027D78E /* SNNet.app */,
+				741830561D47D6490027D78E /* SNNetTV.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -91,6 +110,16 @@
 			path = server;
 			sourceTree = SOURCE_ROOT;
 		};
+		741830571D47D6490027D78E /* SNNetTV */ = {
+			isa = PBXGroup;
+			children = (
+				7418305C1D47D6490027D78E /* Main.storyboard */,
+				7418305F1D47D6490027D78E /* Assets.xcassets */,
+				741830611D47D6490027D78E /* Info.plist */,
+			);
+			path = SNNetTV;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -111,6 +140,23 @@
 			productReference = 741830341D46A9850027D78E /* SNNet.app */;
 			productType = "com.apple.product-type.application";
 		};
+		741830551D47D6490027D78E /* SNNetTV */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 741830621D47D6490027D78E /* Build configuration list for PBXNativeTarget "SNNetTV" */;
+			buildPhases = (
+				741830521D47D6490027D78E /* Sources */,
+				741830531D47D6490027D78E /* Frameworks */,
+				741830541D47D6490027D78E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SNNetTV;
+			productName = SNNetTV;
+			productReference = 741830561D47D6490027D78E /* SNNetTV.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -122,6 +168,9 @@
 				ORGANIZATIONNAME = "Satoshi Nakajima";
 				TargetAttributes = {
 					741830331D46A9850027D78E = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					741830551D47D6490027D78E = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
@@ -140,6 +189,7 @@
 			projectRoot = "";
 			targets = (
 				741830331D46A9850027D78E /* SNNet */,
+				741830551D47D6490027D78E /* SNNetTV */,
 			);
 		};
 /* End PBXProject section */
@@ -156,6 +206,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		741830541D47D6490027D78E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				741830601D47D6490027D78E /* Assets.xcassets in Resources */,
+				741830681D47D67E0027D78E /* swipe.png in Resources */,
+				7418305E1D47D6490027D78E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -166,6 +226,16 @@
 				7418303A1D46A9850027D78E /* ViewController.swift in Sources */,
 				741830381D46A9850027D78E /* AppDelegate.swift in Sources */,
 				7418304B1D46A9AC0027D78E /* SNNet.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		741830521D47D6490027D78E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				741830671D47D6790027D78E /* ViewController.swift in Sources */,
+				741830661D47D6790027D78E /* AppDelegate.swift in Sources */,
+				741830651D47D6790027D78E /* SNNet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +256,14 @@
 				741830411D46A9850027D78E /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		7418305C1D47D6490027D78E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7418305D1D47D6490027D78E /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -300,6 +378,36 @@
 			};
 			name = Release;
 		};
+		741830631D47D6490027D78E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = SNNetTV/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cloudreaders.SNNetTV;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+			};
+			name = Debug;
+		};
+		741830641D47D6490027D78E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = SNNetTV/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cloudreaders.SNNetTV;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -317,6 +425,14 @@
 			buildConfigurations = (
 				741830471D46A9850027D78E /* Debug */,
 				741830481D46A9850027D78E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		741830621D47D6490027D78E /* Build configuration list for PBXNativeTarget "SNNetTV" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				741830631D47D6490027D78E /* Debug */,
+				741830641D47D6490027D78E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

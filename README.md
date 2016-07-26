@@ -1,6 +1,6 @@
 # SNNet
 
-SNNet is a lightweight library that allows developers to write network client applications for iOS easiliy and efficiently.
+SNNet is a lightweight library that allows developers to write network client applications for iOS/tvOS easiliy and efficiently.
 
 ## Syntax
 
