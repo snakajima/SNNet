@@ -6,7 +6,7 @@
 //  Copyright © 2015 Satoshi Nakajima. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 private func MyLog(text:String, level:Int = 1) {
     let s_verbosLevel = 0
