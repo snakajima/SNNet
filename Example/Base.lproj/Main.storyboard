@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SNNet" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="swipe" borderStyle="roundedRect" placeholder="Search" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="F1k-Ma-byT">
+                                <rect key="frame" x="16" y="20" width="244" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="6mm-hu-XZK"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6iZ-15-9Ss">
+                                <rect key="frame" x="260" y="20" width="44" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="BDR-ZJ-cRm"/>
+                                    <constraint firstAttribute="height" constant="30" id="aI1-0w-W7i"/>
+                                </constraints>
+                                <state key="normal" title="GET"/>
+                                <connections>
+                                    <action selector="getButtonDidTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dDV-6x-PD5"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6o0-Kh-X6M">
+                                <rect key="frame" x="16" y="58" width="288" height="502"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="F1k-Ma-byT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="4os-L0-aOc"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6o0-Kh-X6M" secondAttribute="trailing" id="4xP-LO-wy0"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="6o0-Kh-X6M" secondAttribute="bottom" constant="8" id="Cvw-bU-jLH"/>
+                            <constraint firstItem="6iZ-15-9Ss" firstAttribute="leading" secondItem="F1k-Ma-byT" secondAttribute="trailing" id="RBq-6C-vJN"/>
+                            <constraint firstItem="F1k-Ma-byT" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="VVF-os-Aef"/>
+                            <constraint firstItem="6iZ-15-9Ss" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="aif-bb-4GQ"/>
+                            <constraint firstItem="6o0-Kh-X6M" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="hRe-bV-aKT"/>
+                            <constraint firstItem="6o0-Kh-X6M" firstAttribute="top" secondItem="6iZ-15-9Ss" secondAttribute="bottom" constant="8" id="kPo-r9-A4G"/>
+                            <constraint firstItem="6iZ-15-9Ss" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="sxe-px-6so"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="textField" destination="F1k-Ma-byT" id="Eyc-jl-RF9"/>
+                        <outlet property="textView" destination="6o0-Kh-X6M" id="hxR-jy-bFN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="252" y="464"/>
+        </scene>
+    </scenes>
+</document>
