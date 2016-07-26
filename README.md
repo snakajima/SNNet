@@ -54,6 +54,6 @@ All functions return an NSURLSessionDownloadTask object associated with each req
 
 ## Unit Test
 
-1. Run the test serer by typing "node test/SNNet/server/index.js" from your Terminal app.
+1. Run the test server by typing "node test/SNNet/server/index.js" from your Terminal app.
 2. Open the project "test/SNNet/SNNet.xcodeproj" with xCode
 3. Build & run it under one of iOS emulators
