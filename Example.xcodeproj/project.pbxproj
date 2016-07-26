@@ -16,7 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		F379ECC11D470A3500D001D9 /* SNNet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SNNet.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F379ECC11D470A3500D001D9 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F379ECC41D470A3500D001D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F379ECC61D470A3500D001D9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		F379ECC91D470A3500D001D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -49,7 +49,7 @@
 		F379ECC21D470A3500D001D9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F379ECC11D470A3500D001D9 /* SNNet.app */,
+				F379ECC11D470A3500D001D9 /* Example.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -78,9 +78,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F379ECC01D470A3500D001D9 /* SNNet */ = {
+		F379ECC01D470A3500D001D9 /* Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F379ECD31D470A3500D001D9 /* Build configuration list for PBXNativeTarget "SNNet" */;
+			buildConfigurationList = F379ECD31D470A3500D001D9 /* Build configuration list for PBXNativeTarget "Example" */;
 			buildPhases = (
 				F379ECBD1D470A3500D001D9 /* Sources */,
 				F379ECBE1D470A3500D001D9 /* Frameworks */,
@@ -90,9 +90,9 @@
 			);
 			dependencies = (
 			);
-			name = SNNet;
+			name = Example;
 			productName = SNNet;
-			productReference = F379ECC11D470A3500D001D9 /* SNNet.app */;
+			productReference = F379ECC11D470A3500D001D9 /* Example.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -123,7 +123,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F379ECC01D470A3500D001D9 /* SNNet */,
+				F379ECC01D470A3500D001D9 /* Example */,
 			);
 		};
 /* End PBXProject section */
@@ -291,7 +291,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F379ECD31D470A3500D001D9 /* Build configuration list for PBXNativeTarget "SNNet" */ = {
+		F379ECD31D470A3500D001D9 /* Build configuration list for PBXNativeTarget "Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F379ECD41D470A3500D001D9 /* Debug */,
