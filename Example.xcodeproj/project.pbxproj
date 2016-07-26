@@ -12,6 +12,7 @@
 		F379ECCA1D470A3500D001D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F379ECC81D470A3500D001D9 /* Main.storyboard */; };
 		F379ECCC1D470A3500D001D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F379ECCB1D470A3500D001D9 /* Assets.xcassets */; };
 		F379ECCF1D470A3500D001D9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F379ECCD1D470A3500D001D9 /* LaunchScreen.storyboard */; };
+		F379ECD81D470B7600D001D9 /* SNNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F379ECD71D470B7600D001D9 /* SNNet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		F379ECCB1D470A3500D001D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F379ECCE1D470A3500D001D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F379ECD01D470A3500D001D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F379ECD71D470B7600D001D9 /* SNNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SNNet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +40,7 @@
 		F379ECB81D470A3500D001D9 = {
 			isa = PBXGroup;
 			children = (
+				F379ECD61D470B7600D001D9 /* src */,
 				F379ECC31D470A3500D001D9 /* Example */,
 				F379ECC21D470A3500D001D9 /* Products */,
 			);
@@ -62,6 +65,14 @@
 				F379ECD01D470A3500D001D9 /* Info.plist */,
 			);
 			path = Example;
+			sourceTree = "<group>";
+		};
+		F379ECD61D470B7600D001D9 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				F379ECD71D470B7600D001D9 /* SNNet.swift */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,6 +148,7 @@
 			files = (
 				F379ECC71D470A3500D001D9 /* ViewController.swift in Sources */,
 				F379ECC51D470A3500D001D9 /* AppDelegate.swift in Sources */,
+				F379ECD81D470B7600D001D9 /* SNNet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
