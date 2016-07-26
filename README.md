@@ -49,6 +49,9 @@ SNNet.post("/post3", fileData: data, params:["message":"Hello World"]) { (url, e
 
 ```
 
+All functions return an NSURLSessionDownloadTask object associated with each request. If the application needs to monitor the progress of an HTTP POST request, it should listen to the *SNNet.didSentBytes* notification associated with the returned NSURLSessionDownloadTask object. 
+
+
 ## Unit Test
 
 1. Run the test serer by typing "node test/SNNet/server/index.js" from your Terminal app.
