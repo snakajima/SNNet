@@ -29,6 +29,26 @@ SNNet.get("/webhp", params: [ "q":"Hello World" ]) { (url, err) -> (Void) in
 
 It also supports HTTP POST, PUT and DELETE. Use *post*, *put*, and *delete* functions respectedly. 
 
+For HTTP Post, it provides a few options. 
+
+```
+// Posting a raw data
+SNNet.post("/post1", rawData: data) { (url, err) -> (Void) in
+    ...
+}
+
+// Posting a multi-part data with a file
+SNNet.post("/post2", file: url, params:["message":"Hello World"]) { (url, err) -> (Void) in
+    ...
+}
+
+// Posting a multi-part data with an optional file data
+SNNet.post("/post3", fileData: data, params:["message":"Hello World"]) { (url, err) -> (Void) in
+    ...
+}
+
+```
+
 ## Unit Test
 
 1. Run the test serer by typing "node test/SNNet/server/index.js" from your Terminal app.
