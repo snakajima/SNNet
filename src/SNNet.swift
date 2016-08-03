@@ -15,11 +15,11 @@ private func MyLog(_ text:String, level:Int = 1) {
     }
 }
 
-enum SNNetParamError: ErrorProtocol {
+enum SNNetParamError: Swift.Error {
     case invalidURL
 }
 
-class SNNetError: NSObject, ErrorProtocol {
+class SNNetError: NSObject, Swift.Error {
     let res:HTTPURLResponse
     init(res:HTTPURLResponse) {
         self.res = res
@@ -74,9 +74,11 @@ class SNNetError: NSObject, ErrorProtocol {
     }
 }
 
-public typealias snnet_callback = (url:URL?, err:ErrorProtocol?)->(Void)
+public typealias snnet_callback = (url:URL?, err:Swift.Error?)->(Void)
 
 class SNNet: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
+    typealias RegularExpression = NSRegularExpression
+
     static let boundary = "0xKhTmLbOuNdArY---This_Is_ThE_BoUnDaRyy---pqo"
 
     static let sharedInstance = SNNet()
@@ -184,7 +186,7 @@ class SNNet: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
         if regex.matches(in: path, options: RegularExpression.MatchingOptions(), range: NSMakeRange(0, path.characters.count)).count > 0 {
             return URL(string: path)!
         }
-        return try! apiRoot.appendingPathComponent(path)
+        return apiRoot.appendingPathComponent(path)
     }
     
     @discardableResult private static func request(_ method:String, path:String, params:[String:String]? = nil, callback:snnet_callback) -> URLSessionDownloadTask? {
@@ -206,7 +208,7 @@ class SNNet: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
         
         let request:NSMutableURLRequest
         if let q = query, method == "GET" {
-            let urlGet = URL(string: url.absoluteString! + "?\(q)")!
+            let urlGet = URL(string: url.absoluteString + "?\(q)")!
             request = NSMutableURLRequest(url: urlGet)
             MyLog("SNNet \(method) url=\(urlGet.absoluteString)")
         } else {
@@ -224,7 +226,7 @@ class SNNet: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
     }
 
     @discardableResult private static func sendRequest(_ request:URLRequest, callback:snnet_callback) -> URLSessionDownloadTask {
-        let task = session.downloadTask(with: request) { (url:URL?, res:URLResponse?, err:NSError?) -> Void in
+        let task = session.downloadTask(with: request) { (url:URL?, res:URLResponse?, err:Swift.Error?) -> Void in
             if let error = err {
                 MyLog("SNNet ### error=\(error)")
                 callback(url: url, err: err)

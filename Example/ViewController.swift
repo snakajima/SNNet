@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         }
     }
 
-    func execute(_ callback: (String?, ErrorProtocol?) -> Void) {
+    func execute(_ callback: (String?, Swift.Error?) -> Void) {
         guard let searchKeyword = searchKeyword else {
             return
         }
@@ -46,11 +46,11 @@ class ViewController: UIViewController {
             "q": searchKeyword,
         ]
 
-        UIApplication.shared().isNetworkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
 
         SNNet.get(path, params: params) { url, error in
             defer {
-                UIApplication.shared().isNetworkActivityIndicatorVisible = false
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }
 
             if let error = error {
@@ -75,7 +75,7 @@ class ViewController: UIViewController {
         textView?.text = text
     }
 
-    enum Error: ErrorProtocol {
+    enum Error: Swift.Error {
         case invalidData
     }
 }
