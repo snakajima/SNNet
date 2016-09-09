@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     @IBAction func getButtonDidTap(_ sender: AnyObject) {
         execute() { [weak self] text, error in
             if let error = error {
-                self?.gotText(String(error))
+                self?.gotText(String(describing: error))
             } else if let text = text {
                 self?.gotText(text)
             }
