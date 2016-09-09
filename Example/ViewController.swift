@@ -30,14 +30,14 @@ class ViewController: UIViewController {
     @IBAction func getButtonDidTap(_ sender: AnyObject) {
         execute() { [weak self] text, error in
             if let error = error {
-                self?.gotText(String(error))
+                self?.gotText(String(describing: error))
             } else if let text = text {
                 self?.gotText(text)
             }
         }
     }
 
-    func execute(_ callback: (String?, Swift.Error?) -> Void) {
+    func execute(_ callback: @escaping (String?, Swift.Error?) -> Void) {
         guard let searchKeyword = searchKeyword else {
             return
         }

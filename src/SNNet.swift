@@ -74,7 +74,7 @@ class SNNetError: NSObject, Swift.Error {
     }
 }
 
-public typealias snnet_callback = (url:URL?, err:Swift.Error?)->(Void)
+public typealias snnet_callback = (_ url:URL?, _ err:Swift.Error?)->(Void)
 
 class SNNet: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
     typealias RegularExpression = NSRegularExpression
@@ -97,45 +97,45 @@ class SNNet: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
         }
     }
 
-    @discardableResult static func get(_ path:String, params:[String:String]? = nil, callback:snnet_callback) -> URLSessionDownloadTask? {
+    @discardableResult static func get(_ path:String, params:[String:String]? = nil, callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         return SNNet.request("GET", path: path, params:params, callback:callback)
     }
 
-    @discardableResult static func post(_ path:String, params:[String:String]? = nil, callback:snnet_callback) -> URLSessionDownloadTask? {
+    @discardableResult static func post(_ path:String, params:[String:String]? = nil, callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         return SNNet.request("POST", path: path, params:params, callback:callback)
     }
 
-    @discardableResult static func put(_ path:String, params:[String:String]? = nil, callback:snnet_callback) -> URLSessionDownloadTask? {
+    @discardableResult static func put(_ path:String, params:[String:String]? = nil, callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         return SNNet.request("PUT", path: path, params:params, callback:callback)
     }
 
-    @discardableResult static func delete(_ path:String, params:[String:String]? = nil, callback:snnet_callback) -> URLSessionDownloadTask? {
+    @discardableResult static func delete(_ path:String, params:[String:String]? = nil, callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         return SNNet.request("DELETE", path: path, params:params, callback:callback)
     }
 
-    @discardableResult static func post(_ path:String, json:[String:AnyObject], params:[String:String], callback:snnet_callback) -> URLSessionDownloadTask? {
+    @discardableResult static func post(_ path:String, json:[String:AnyObject], params:[String:String], callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         do {
             let data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions())
             return post(path, fileData: data, params: params, callback: callback)
         } catch {
-            callback(url: nil, err: error)
+            callback(nil, error)
             return nil
         }
     }
 
-    @discardableResult static func post(_ path:String, file:URL, params:[String:String], callback:snnet_callback) -> URLSessionDownloadTask? {
+    @discardableResult static func post(_ path:String, file:URL, params:[String:String], callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         guard let data = try? Data(contentsOf: file) else {
             MyLog("SNNet Invalid URL:\(path)")
-            callback(url: nil, err: SNNetParamError.invalidURL)
+            callback(nil, SNNetParamError.invalidURL)
             return nil
         }
         return post(path, fileData: data, params: params, callback: callback)
     }
 
-    @discardableResult static func post(_ path:String, rawData:Data, callback:snnet_callback) -> URLSessionDownloadTask? {
+    @discardableResult static func post(_ path:String, rawData:Data, callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         guard let url = urlFromPath(path) else {
             MyLog("SNNet Invalid URL:\(path)")
-            callback(url: nil, err: SNNetParamError.invalidURL)
+            callback(nil, SNNetParamError.invalidURL)
             return nil
         }
         let request = NSMutableURLRequest(url: url)
@@ -146,10 +146,10 @@ class SNNet: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
         return sendRequest(request as URLRequest, callback: callback)
     }
     
-    @discardableResult static func post(_ path:String, fileData _fileData:Data?, params:[String:String], callback:snnet_callback) -> URLSessionDownloadTask? {
+    @discardableResult static func post(_ path:String, fileData _fileData:Data?, params:[String:String], callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         guard let url = urlFromPath(path) else {
             MyLog("SNNet Invalid URL:\(path)")
-            callback(url: nil, err: SNNetParamError.invalidURL)
+            callback(nil, SNNetParamError.invalidURL)
             return nil
         }
         let request = NSMutableURLRequest(url: url)
@@ -189,10 +189,10 @@ class SNNet: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
         return apiRoot.appendingPathComponent(path)
     }
     
-    @discardableResult private static func request(_ method:String, path:String, params:[String:String]? = nil, callback:snnet_callback) -> URLSessionDownloadTask? {
+    @discardableResult private static func request(_ method:String, path:String, params:[String:String]? = nil, callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         guard let url = urlFromPath(path) else {
             MyLog("SNNet Invalid URL:\(path)")
-            callback(url: nil, err: SNNetParamError.invalidURL)
+            callback(nil, SNNetParamError.invalidURL)
             return nil
         }
         var query:String?
@@ -225,11 +225,11 @@ class SNNet: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
         return sendRequest(request as URLRequest, callback: callback)
     }
 
-    @discardableResult private static func sendRequest(_ request:URLRequest, callback:snnet_callback) -> URLSessionDownloadTask {
+    @discardableResult private static func sendRequest(_ request:URLRequest, callback:@escaping snnet_callback) -> URLSessionDownloadTask {
         let task = session.downloadTask(with: request) { (url:URL?, res:URLResponse?, err:Swift.Error?) -> Void in
             if let error = err {
                 MyLog("SNNet ### error=\(error)")
-                callback(url: url, err: err)
+                callback(url, err)
             } else {
                 guard let hres = res as? HTTPURLResponse else {
                     MyLog("SNNet ### not HTTP Response=\(res)")
@@ -237,9 +237,9 @@ class SNNet: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
                     return
                 }
                 if (200..<300).contains(hres.statusCode) {
-                    callback(url: url, err: nil)
+                    callback(url, nil)
                 } else {
-                    callback(url: url, err: SNNetError(res: hres))
+                    callback(url, SNNetError(res: hres))
                 }
             }
         }
