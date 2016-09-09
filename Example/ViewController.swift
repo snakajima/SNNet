@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         }
     }
 
-    func execute(_ callback: (String?, Swift.Error?) -> Void) {
+    func execute(_ callback: @escaping (String?, Swift.Error?) -> Void) {
         guard let searchKeyword = searchKeyword else {
             return
         }
