@@ -206,7 +206,7 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
         
         let request:NSMutableURLRequest
         if let q = query where method == "GET" {
-            let urlGet = NSURL(string: url.absoluteString + "?\(q)")!
+            let urlGet = NSURL(string: url.absoluteString! + "?\(q)")!
             request = NSMutableURLRequest(URL: urlGet)
             MyLog("SNNet \(method) url=\(urlGet.absoluteString)")
         } else {
