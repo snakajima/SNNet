@@ -186,6 +186,17 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
         }
         return apiRoot.URLByAppendingPathComponent(path)
     }
+
+    private static func encode(string: String) -> String {
+        // URL encoding: RFC 3986 http://www.ietf.org/rfc/rfc3986.txt
+        let allowedCharacters = NSMutableCharacterSet.alphanumericCharacterSet()
+        allowedCharacters.addCharactersInString("-._~")
+        
+        // The following force-unwrap fails if the string contains invalid UTF-16 surrogate pairs,
+        // but the case can be ignored unless a string is constructed from UTF-16 byte data.
+        // http://stackoverflow.com/a/33558934/4522678
+        return string.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacters)!
+    }
     
     private static func request(method:String, path:String, params:[String:String]? = nil, callback:snnet_callback) -> NSURLSessionDownloadTask? {
         guard let url = urlFromPath(path) else {
@@ -195,13 +206,7 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
         }
         var query:String?
         if let p = params {
-            let components = NSURLComponents(string: "http://foo")!
-            components.queryItems = p.map({ (key:String, value:String?) -> NSURLQueryItem in
-                return NSURLQueryItem(name: key, value: value)
-            })
-            if let urlQuery = components.URL {
-                query = urlQuery.query
-            }
+            query = p.map { (key, value) in "\(key)=\(encode(value))" }.joinWithSeparator("&")
         }
         
         let request:NSMutableURLRequest
