@@ -21,23 +21,23 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        guard let url = NSURL(string: "\(scheme)://\(host)") else {
+        guard let url = URL(string: "\(scheme)://\(host)") else {
             return
         }
         SNNet.apiRoot = url
     }
 
-    @IBAction func getButtonDidTap(sender: AnyObject) {
+    @IBAction func getButtonDidTap(_ sender: AnyObject) {
         execute() { [weak self] text, error in
             if let error = error {
-                self?.gotText(String(error))
+                self?.gotText(String(describing: error))
             } else if let text = text {
                 self?.gotText(text)
             }
         }
     }
 
-    func execute(callback: (String?, ErrorType?) -> Void) {
+    func execute(_ callback: @escaping (String?, Swift.Error?) -> Void) {
         guard let searchKeyword = searchKeyword else {
             return
         }
@@ -46,11 +46,11 @@ class ViewController: UIViewController {
             "q": searchKeyword,
         ]
 
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
 
         SNNet.get(path, params: params) { url, error in
             defer {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }
 
             if let error = error {
@@ -60,8 +60,8 @@ class ViewController: UIViewController {
 
             guard
                 let url = url,
-                data = NSData(contentsOfURL: url),
-                text = String(data: data, encoding: NSUTF8StringEncoding)
+                let data = try? Data(contentsOf: url),
+                let text = String(data: data, encoding: String.Encoding.utf8)
             else {
                 callback(nil, Error.invalidData)
                 return
@@ -71,11 +71,11 @@ class ViewController: UIViewController {
         }
     }
 
-    func gotText(text: String) {
+    func gotText(_ text: String) {
         textView?.text = text
     }
 
-    enum Error: ErrorType {
+    enum Error: Swift.Error {
         case invalidData
     }
 }
