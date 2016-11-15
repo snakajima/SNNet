@@ -188,6 +188,17 @@ class SNNet: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
         }
         return apiRoot.appendingPathComponent(path)
     }
+
+    private static func encode(string: String) -> String {
+        // URL encoding: RFC 3986 http://www.ietf.org/rfc/rfc3986.txt
+        let allowedCharacters = NSMutableCharacterSet.alphanumeric()
+        allowedCharacters.addCharacters(in: "-._~")
+        
+        // The following force-unwrap fails if the string contains invalid UTF-16 surrogate pairs,
+        // but the case can be ignored unless a string is constructed from UTF-16 byte data.
+        // http://stackoverflow.com/a/33558934/4522678
+        return string.addingPercentEncoding(withAllowedCharacters: allowedCharacters as CharacterSet)!
+    }
     
     @discardableResult private static func request(_ method:String, path:String, params:[String:String]? = nil, callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         guard let url = urlFromPath(path) else {
@@ -197,19 +208,13 @@ class SNNet: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
         }
         var query:String?
         if let p = params {
-            var components = URLComponents(string: "http://foo")!
-            components.queryItems = p.map({ (key:String, value:String?) -> URLQueryItem in
-                return URLQueryItem(name: key, value: value)
-            })
-            if let urlQuery = components.url {
-                query = urlQuery.query
-            }
+            query = p.map { (key, value) in "\(key)=\(encode(string: value))" }.joined(separator: "&")
         }
         
         let request:NSMutableURLRequest
         if let q = query, method == "GET" {
-            let urlGet = URL(string: url.absoluteString + "?\(q)")!
-            request = NSMutableURLRequest(url: urlGet)
+            let urlGet = NSURL(string: url.absoluteString + "?\(q)")!
+            request = NSMutableURLRequest(url: urlGet as URL)
             MyLog("SNNet \(method) url=\(urlGet.absoluteString)")
         } else {
             request = NSMutableURLRequest(url: url)
