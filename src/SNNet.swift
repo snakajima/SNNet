@@ -8,20 +8,20 @@
 
 import Foundation
 
-private func MyLog(text:String, level:Int = 1) {
+private func MyLog(_ text:String, level:Int = 1) {
     let s_verbosLevel = 0
     if level <= s_verbosLevel {
         print(text)
     }
 }
 
-enum SNNetParamError: ErrorType {
-    case InvalidURL
+enum SNNetParamError: Swift.Error {
+    case invalidURL
 }
 
-class SNNetError: NSObject, ErrorType {
-    let res:NSHTTPURLResponse
-    init(res:NSHTTPURLResponse) {
+class SNNetError: NSObject, Swift.Error {
+    let res:HTTPURLResponse
+    init(res:HTTPURLResponse) {
         self.res = res
     }
 
@@ -74,84 +74,86 @@ class SNNetError: NSObject, ErrorType {
     }
 }
 
-public typealias snnet_callback = (url:NSURL?, err:ErrorType?)->(Void)
+public typealias snnet_callback = (_ url:URL?, _ err:Swift.Error?)->(Void)
 
-class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
+class SNNet: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
+    typealias RegularExpression = NSRegularExpression
+
     static let boundary = "0xKhTmLbOuNdArY---This_Is_ThE_BoUnDaRyy---pqo"
 
     static let sharedInstance = SNNet()
-    static let session:NSURLSession = {
-        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
-        return NSURLSession(configuration: config, delegate: SNNet.sharedInstance, delegateQueue: NSOperationQueue.mainQueue())
+    static let session:Foundation.URLSession = {
+        let config = URLSessionConfiguration.default
+        return Foundation.URLSession(configuration: config, delegate: SNNet.sharedInstance, delegateQueue: OperationQueue.main)
     }()
-    static var apiRoot = NSURL(string: "http://localhost")!
+    static var apiRoot = URL(string: "http://localhost")!
     
-    static func deleteAllCookiesForURL(url:NSURL) {
-        let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
-        if let cookies = storage.cookiesForURL(url) {
+    static func deleteAllCookiesForURL(_ url:URL) {
+        let storage = HTTPCookieStorage.shared
+        if let cookies = storage.cookies(for: url) {
             for cookie in cookies {
                 storage.deleteCookie(cookie)
             }
         }
     }
 
-    static func get(path:String, params:[String:String]? = nil, callback:snnet_callback) -> NSURLSessionDownloadTask? {
+    @discardableResult static func get(_ path:String, params:[String:String]? = nil, callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         return SNNet.request("GET", path: path, params:params, callback:callback)
     }
 
-    static func post(path:String, params:[String:String]? = nil, callback:snnet_callback) -> NSURLSessionDownloadTask? {
+    @discardableResult static func post(_ path:String, params:[String:String]? = nil, callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         return SNNet.request("POST", path: path, params:params, callback:callback)
     }
 
-    static func put(path:String, params:[String:String]? = nil, callback:snnet_callback) -> NSURLSessionDownloadTask? {
+    @discardableResult static func put(_ path:String, params:[String:String]? = nil, callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         return SNNet.request("PUT", path: path, params:params, callback:callback)
     }
 
-    static func delete(path:String, params:[String:String]? = nil, callback:snnet_callback) -> NSURLSessionDownloadTask? {
+    @discardableResult static func delete(_ path:String, params:[String:String]? = nil, callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         return SNNet.request("DELETE", path: path, params:params, callback:callback)
     }
 
-    static func post(path:String, json:[String:AnyObject], params:[String:String], callback:snnet_callback) -> NSURLSessionDownloadTask? {
+    @discardableResult static func post(_ path:String, json:[String:AnyObject], params:[String:String], callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         do {
-            let data = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
+            let data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions())
             return post(path, fileData: data, params: params, callback: callback)
         } catch {
-            callback(url: nil, err: error)
+            callback(nil, error)
             return nil
         }
     }
 
-    static func post(path:String, file:NSURL, params:[String:String], callback:snnet_callback) -> NSURLSessionDownloadTask? {
-        guard let data = NSData(contentsOfURL: file) else {
+    @discardableResult static func post(_ path:String, file:URL, params:[String:String], callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
+        guard let data = try? Data(contentsOf: file) else {
             MyLog("SNNet Invalid URL:\(path)")
-            callback(url: nil, err: SNNetParamError.InvalidURL)
+            callback(nil, SNNetParamError.invalidURL)
             return nil
         }
         return post(path, fileData: data, params: params, callback: callback)
     }
 
-    static func post(path:String, rawData:NSData, callback:snnet_callback) -> NSURLSessionDownloadTask? {
+    @discardableResult static func post(_ path:String, rawData:Data, callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         guard let url = urlFromPath(path) else {
             MyLog("SNNet Invalid URL:\(path)")
-            callback(url: nil, err: SNNetParamError.InvalidURL)
+            callback(nil, SNNetParamError.invalidURL)
             return nil
         }
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.HTTPBody = rawData
-        request.setValue("\(rawData.length)", forHTTPHeaderField: "Content-Length")
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = rawData
+        request.setValue("\(rawData.count)", forHTTPHeaderField: "Content-Length")
 
-        return sendRequest(request, callback: callback)
+        return sendRequest(request as URLRequest, callback: callback)
     }
     
-    static func post(path:String, fileData _fileData:NSData?, params:[String:String], callback:snnet_callback) -> NSURLSessionDownloadTask? {
+    @discardableResult static func post(_ path:String, fileData _fileData:Data?, params:[String:String], callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         guard let url = urlFromPath(path) else {
             MyLog("SNNet Invalid URL:\(path)")
-            callback(url: nil, err: SNNetParamError.InvalidURL)
+            callback(nil, SNNetParamError.invalidURL)
             return nil
         }
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
 
         var body = ""
         for (name, value) in params {
@@ -159,85 +161,85 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
             body += "Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n"
             body += value
         }
-        let data = NSMutableData(data: body.dataUsingEncoding(NSUTF8StringEncoding)!)
+        var data = NSData(data: body.data(using: String.Encoding.utf8)!) as Data
         
         if let fileData = _fileData {
             var extraBody = "\r\n--\(boundary)\r\n"
             extraBody += "Content-Disposition: form-data; name=\"file\"\r\n\r\n"
             
-            data.appendData(extraBody.dataUsingEncoding(NSUTF8StringEncoding)!)
-            data.appendData(fileData)
+            data.append(extraBody.data(using: String.Encoding.utf8)!)
+            data.append(fileData)
         }
 
-        data.appendData("\r\n--\(boundary)--\r\n".dataUsingEncoding(NSUTF8StringEncoding)!)
+        data.append("\r\n--\(boundary)--\r\n".data(using: String.Encoding.utf8)!)
         
-        request.HTTPBody = data
-        request.setValue("\(data.length)", forHTTPHeaderField: "Content-Length")
+        request.httpBody = data
+        request.setValue("\(data.count)", forHTTPHeaderField: "Content-Length")
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
-        return sendRequest(request, callback: callback)
+        return sendRequest(request as URLRequest, callback: callback)
     }
     
-    private static let regex = try! NSRegularExpression(pattern: "^https?:", options: NSRegularExpressionOptions())
+    private static let regex = try! RegularExpression(pattern: "^https?:", options: RegularExpression.Options())
     
-    private static func urlFromPath(path:String) -> NSURL? {
-        if regex.matchesInString(path, options: NSMatchingOptions(), range: NSMakeRange(0, path.characters.count)).count > 0 {
-            return NSURL(string: path)!
+    private static func urlFromPath(_ path:String) -> URL? {
+        if regex.matches(in: path, options: RegularExpression.MatchingOptions(), range: NSMakeRange(0, path.characters.count)).count > 0 {
+            return URL(string: path)!
         }
-        return apiRoot.URLByAppendingPathComponent(path)
+        return apiRoot.appendingPathComponent(path)
     }
     
-    private static func request(method:String, path:String, params:[String:String]? = nil, callback:snnet_callback) -> NSURLSessionDownloadTask? {
+    @discardableResult private static func request(_ method:String, path:String, params:[String:String]? = nil, callback:@escaping snnet_callback) -> URLSessionDownloadTask? {
         guard let url = urlFromPath(path) else {
             MyLog("SNNet Invalid URL:\(path)")
-            callback(url: nil, err: SNNetParamError.InvalidURL)
+            callback(nil, SNNetParamError.invalidURL)
             return nil
         }
         var query:String?
         if let p = params {
-            let components = NSURLComponents(string: "http://foo")!
-            components.queryItems = p.map({ (key:String, value:String?) -> NSURLQueryItem in
-                return NSURLQueryItem(name: key, value: value)
+            var components = URLComponents(string: "http://foo")!
+            components.queryItems = p.map({ (key:String, value:String?) -> URLQueryItem in
+                return URLQueryItem(name: key, value: value)
             })
-            if let urlQuery = components.URL {
+            if let urlQuery = components.url {
                 query = urlQuery.query
             }
         }
         
         let request:NSMutableURLRequest
-        if let q = query where method == "GET" {
-            let urlGet = NSURL(string: url.absoluteString + "?\(q)")!
-            request = NSMutableURLRequest(URL: urlGet)
+        if let q = query, method == "GET" {
+            let urlGet = URL(string: url.absoluteString + "?\(q)")!
+            request = NSMutableURLRequest(url: urlGet)
             MyLog("SNNet \(method) url=\(urlGet.absoluteString)")
         } else {
-            request = NSMutableURLRequest(URL: url)
+            request = NSMutableURLRequest(url: url)
             MyLog("SNNet \(method) url=\(url.absoluteString) +\(query)")
         }
 
-        request.HTTPMethod = method
-        if let data = query?.dataUsingEncoding(NSUTF8StringEncoding) where method != "GET" {
-            request.HTTPBody = data
-            request.setValue("\(data.length)", forHTTPHeaderField: "Content-Length")
+        request.httpMethod = method
+        if let data = query?.data(using: String.Encoding.utf8), method != "GET" {
+            request.httpBody = data
+            request.setValue("\(data.count)", forHTTPHeaderField: "Content-Length")
             request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         }
-        return sendRequest(request, callback: callback)
+        return sendRequest(request as URLRequest, callback: callback)
     }
 
-    private static func sendRequest(request:NSURLRequest, callback:snnet_callback) -> NSURLSessionDownloadTask {
-        let task = session.downloadTaskWithRequest(request) { (url:NSURL?, res:NSURLResponse?, err:NSError?) -> Void in
+    @discardableResult private static func sendRequest(_ request:URLRequest, callback:@escaping snnet_callback) -> URLSessionDownloadTask {
+        let task = session.downloadTask(with: request) { (url:URL?, res:URLResponse?, err:Swift.Error?) -> Void in
             if let error = err {
                 MyLog("SNNet ### error=\(error)")
-                callback(url: url, err: err)
+                callback(url, err)
             } else {
-                guard let hres = res as? NSHTTPURLResponse else {
+                guard let hres = res as? HTTPURLResponse else {
                     MyLog("SNNet ### not HTTP Response=\(res)")
                     // NOTE: Probably never happens
                     return
                 }
                 if (200..<300).contains(hres.statusCode) {
-                    callback(url: url, err: nil)
+                    callback(url, nil)
                 } else {
-                    callback(url: url, err: SNNetError(res: hres))
+                    callback(url, SNNetError(res: hres))
                 }
             }
         }
@@ -247,7 +249,7 @@ class SNNet: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
     
     static let didSentBytes = "didSentBytes"
     
-    func URLSession(session: NSURLSession, task: NSURLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
-        NSNotificationCenter.defaultCenter().postNotificationName(SNNet.didSentBytes, object: task)
+    func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: SNNet.didSentBytes), object: task)
     }
 }
