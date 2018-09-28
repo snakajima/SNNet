@@ -182,7 +182,24 @@ class SNNet: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
 
         return sendRequest(request, callback: callback)
     }
-    
+
+    @discardableResult
+    static func getAuth(_ path:String, email:String, password:String, params:[String:String]? = nil, callback:@escaping (URL?, Error?)->(Void)) -> URLSessionDownloadTask? {
+        guard let url = url(from: path) else {
+            print("SNNet Invalid URL:\(path)")
+            // BUGBUG: callback with an error
+            return nil
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let str = email + ":" + password
+        let auth = "Basic " + str.data(using: .utf8)!.base64EncodedString()
+        request.setValue(auth, forHTTPHeaderField: "authorization")
+        
+        return sendRequest(request, callback: callback)
+    }
+
     private static let regex = try! NSRegularExpression(pattern: "^https?:", options: NSRegularExpression.Options())
     
     private static func url(from path:String) -> URL? {
