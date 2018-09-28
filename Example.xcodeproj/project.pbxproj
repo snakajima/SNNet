@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74BE3060215DCCBE003DEDFC /* String+localized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BE305F215DCCBE003DEDFC /* String+localized.swift */; };
 		F379ECC51D470A3500D001D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F379ECC41D470A3500D001D9 /* AppDelegate.swift */; };
 		F379ECC71D470A3500D001D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F379ECC61D470A3500D001D9 /* ViewController.swift */; };
 		F379ECCA1D470A3500D001D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F379ECC81D470A3500D001D9 /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		74BE305F215DCCBE003DEDFC /* String+localized.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+localized.swift"; sourceTree = "<group>"; };
 		F379ECC11D470A3500D001D9 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F379ECC41D470A3500D001D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F379ECC61D470A3500D001D9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 		F379ECD61D470B7600D001D9 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				74BE305F215DCCBE003DEDFC /* String+localized.swift */,
 				F379ECD71D470B7600D001D9 /* SNNet.swift */,
 			);
 			path = src;
@@ -108,7 +111,7 @@
 					F379ECC01D470A3500D001D9 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = H34BY2CCCD;
-						LastSwiftMigration = 0810;
+						LastSwiftMigration = 1000;
 					};
 				};
 			};
@@ -150,6 +153,7 @@
 			files = (
 				F379ECC71D470A3500D001D9 /* ViewController.swift in Sources */,
 				F379ECC51D470A3500D001D9 /* AppDelegate.swift in Sources */,
+				74BE3060215DCCBE003DEDFC /* String+localized.swift in Sources */,
 				F379ECD81D470B7600D001D9 /* SNNet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -268,7 +272,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.swipe.SNNet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -282,7 +287,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.swipe.SNNet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
