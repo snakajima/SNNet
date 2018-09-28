@@ -100,7 +100,6 @@ class SNNet: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
         return URLSession(configuration: config, delegate: SNNet.sharedInstance, delegateQueue: OperationQueue.main)
     }()
     static var apiRoot = URL(string: "https://www.google.com")!
-    static var authorization:String?
     
     static func deleteAllCookies(for url:URL) {
         let storage = HTTPCookieStorage.shared
@@ -246,9 +245,6 @@ class SNNet: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
             request.httpBody = data
             request.setValue("\(data.count)", forHTTPHeaderField: "Content-Length")
             request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        }
-        if let authorization = SNNet.authorization {
-            request.setValue(SNNet.authorization, forHTTPHeaderField: "authorization")
         }
         return sendRequest(request, callback: callback)
     }
